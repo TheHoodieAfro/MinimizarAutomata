@@ -58,11 +58,11 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 	
 	@Override
 	public boolean addVertex(V v) {
-		boolean added = false;
 		// Check if the vertex is not on the map already
 		if(!searchVertex(v)) {
-			@SuppressWarnings("unchecked")
+			
 			// Create a new empty list for that vertex
+			@SuppressWarnings("unchecked")
 			List<V> vList = (List<V>) new ArrayList<Object>();
 			// Get the position for this new vertex
 			int index = adjacencyLists.size();
@@ -71,9 +71,9 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 			// Add the vertex empty list to the adjacencyLists
 			adjacencyLists.add(vList);
 			// Change the value to true indicating that it was possible to add the vertex
-			added = true;
+			return true;
 		}
-		return added;
+		return false;
 	}
 
 	/**
@@ -81,7 +81,7 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 	 * @param v Vertex to be searched
 	 * @return True if found or false if not
 	 */
-	private boolean searchVertex(V v) {
+	public boolean searchVertex(V v) {
 		return vertices.containsValue(v);
 	}
 
