@@ -1,10 +1,11 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import structures.AdjacencyListGraph;
 
-public class Automata<V, S, R> extends AdjacencyListGraph<V>{
+public abstract class Automata<V, S, R> extends AdjacencyListGraph<V>{
 	
 	private final V v0;
 	
@@ -23,6 +24,34 @@ public class Automata<V, S, R> extends AdjacencyListGraph<V>{
 		addVertex(v0);
 	}
 	
+	/**
+	 * @return the v0
+	 */
+	public V getV0() {
+		return v0;
+	}
+
+	/**
+	 * @return the stimulus
+	 */
+	public HashSet<S> getStimulus() {
+		return stimulus;
+	}
+
+	/**
+	 * @return the response
+	 */
+	public HashSet<S> getResponse() {
+		return response;
+	}
+
+	/**
+	 * @return the f
+	 */
+	public HashMap<V, HashMap<S, V>> getF() {
+		return F;
+	}
+
 	public boolean connect(V u, V v, S s) {
 		if(!F.containsKey(u)) {
 			F.put(v, new HashMap<>());
@@ -34,6 +63,23 @@ public class Automata<V, S, R> extends AdjacencyListGraph<V>{
 			return true;
 		}
 		return false;
+	}
+	
+	public V transition(V u, S s) {
+		if(F.containsKey(u)) {
+			return F.get(u).get(s);
+		}
+		return null;
+	}
+	
+	public abstract Automata<V, S, R> minimize();
+	
+	public ArrayList<ArrayList<V>> Partition2_3(ArrayList<ArrayList<V>> partitions) {
+		return null;
+	}
+	
+	public HashMap<Integer, ArrayList<V>> refine(ArrayList<ArrayList<V>> partitions, int min, S s) {
+		return null;
 	}
 	
 }
