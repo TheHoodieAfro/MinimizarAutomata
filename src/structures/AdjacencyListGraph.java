@@ -11,27 +11,29 @@ import structures.Vertex.Color;
 /**
  * This class models a graph using an Adjacency list
  * @author AED Class # 003 // 2019
- * @version 1.0 - 10/2019
+ * @version 2.0 (Modified version for "Informatica Teorica") - 2020
  * @param <V> Abstract data type which represents an object from a natural problem that is going to be modeled as a vertex in a graph representation of the problem
  */
 public class AdjacencyListGraph<V> implements IGraph<V>{
 	
 	/**
-	 * Map with all the vertices within the graph.
-	 * Key of the map is the Vertex and Value is the position of the vertex in the adjacencyList
+	 * 
 	 */
 	private HashMap<V,Vertex<V>> vertices;	
 	
 	/**
-	 * A list for each Vertex within the graph which has a list with all its adjacent Vertices 
+	 * 
 	 */
 	private HashMap<V, ArrayList<Edge<V>>> adjacencyLists;
 	
 	/**
-	 * Property that say if a graph is directed or not
+	 * 
 	 */
 	private boolean isDirected;
 	
+	/**
+	 * 
+	 */
 	private Vertex<V> prevVertex;
 	
 	/**
@@ -53,7 +55,7 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 	
 	/**
 	 * Initializes all the data structures for this graph.
-	 * Set "isDirected" attribute in false
+	 * Sets "isDirected" attribute in false
 	 */
 	private final void initialize() {
 		isDirected = false;
@@ -61,9 +63,11 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 		vertices = new HashMap<>();
 	}
 	
+	/**
+	 *
+	 */
 	@Override
 	public boolean addVertex(V v) {
-		// Check if the vertex is not on the map already
 		if(!searchVertex(v)) {
 			
 			vertices.put(v, new Vertex<V>(v));
@@ -83,6 +87,9 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 		return vertices.containsKey(v);
 	}
 
+	/**
+	 *
+	 */
 	@Override
 	public void addEdge(V u, V v) {
 		
@@ -103,15 +110,20 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 		
 	}
 
+	/**
+	 *
+	 */
 	@Override
 	public void addEdge(V u, V v, double w) {
-		
+		//Nah
 	}
 
+	/**
+	 *
+	 */
 	@Override
 	public boolean removeVertex(V v) {
 		
-		// first looks if the vertex exists
 		if(searchVertex(v)) {
 			
 			vertices.remove(v);
@@ -132,6 +144,9 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 		return false;
 	}
 
+	/**
+	 *
+	 */
 	@Override
 	public boolean removeEdge(V u, V v) {
 		
@@ -151,12 +166,18 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 		return false;
 	}
 
+	/**
+	 *
+	 */
 	@Override
 	public List<V> vertexAdjacent(V v) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 *
+	 */
 	@Override
 	public boolean areConnected(V u, V v) {
 		
@@ -167,12 +188,18 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 		return false;
 	}
 
+	/**
+	 *
+	 */
 	@Override
 	public double[][] weightMatrix() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 *
+	 */
 	@Override
 	public boolean isDirected() {
 		// TODO Auto-generated method stub
@@ -180,13 +207,15 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 	}
 	
 	/**
-	 * 
-	 * @return all the vertices within the graph as a map data structure
+	 * @return
 	 */
 	public HashMap<V, Vertex<V>> getVertices(){
 		return vertices;		
 	}
 	
+	/**
+	 * @return
+	 */
 	public ArrayList<V> getVerticesArray(){
 		ArrayList<V> vertex = new ArrayList<>();
 		vertices.forEach((V x, Vertex<V> y) -> vertex.add(x));
@@ -194,31 +223,46 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 	}
 	
 	/**
-	 *
-	 * @return The graph. A list with lists of vertices and its adjacent vertices
+	 * @return
 	 */
 	public HashMap<V, ArrayList<Edge<V>>> getAdjacencyList(){		
 		return adjacencyLists;		
 	}
 	
+	/**
+	 * @return
+	 */
 	public boolean isEmpty() {
 		return vertices.isEmpty();
 	}
 
+	/**
+	 *
+	 */
 	@Override
 	public int getIndex(V u) {
 		return 0;
 	}
 
+	/**
+	 *
+	 */
 	@Override
 	public int getVertexSize() {
 		return vertices.size();
 	}
 	
+	/**
+	 * @return
+	 */
 	public Vertex<V> getPrevVertex() {
 		return prevVertex;
 	}
 	
+	/**
+	 * @param v
+	 * @return
+	 */
 	public Color getVertexColor(V v) {
 		if(searchVertex(v)) {
 			return vertices.get(v).getColor();
@@ -227,6 +271,9 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 		return null;
 	}
 
+	/**
+	 *
+	 */
 	@Override
 	public boolean BFS(V v) {
 		

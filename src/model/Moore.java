@@ -4,16 +4,35 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import structures.Vertex;
 
+/**
+ * @author Usuario
+ *
+ * @param <V>
+ * @param <S>
+ * @param <R>
+ */
 public class Moore<V, S, R> extends Automata<V, S, R> {
 	
+	/**
+	 * 
+	 */
 	private final HashMap<V, R> response;
-	
+
+	/**
+	 * @param v0
+	 * @param r
+	 */
 	public Moore(V v0, R r) {
 		super(v0);
 		response = new HashMap<>();
 		addState(v0, r);
 	}
 	
+	/**
+	 * @param v
+	 * @param r
+	 * @return
+	 */
 	public boolean addState(V v, R r) {
 		if(v != null && !response.containsKey(v)) {
 			response.put(v, r);
@@ -24,10 +43,17 @@ public class Moore<V, S, R> extends Automata<V, S, R> {
 		return false;
 	}
 	
+	/**
+	 * @param v
+	 * @return
+	 */
 	public R response(V v) {
 		return response.get(v);
 	}
 	
+	/**
+	 * @return
+	 */
 	private ArrayList<ArrayList<V>> partition() {
 		
 		ArrayList<ArrayList<V>> partitions = new ArrayList<>();
@@ -55,6 +81,9 @@ public class Moore<V, S, R> extends Automata<V, S, R> {
 		return  super.partition(partitions);
 	}
 
+	/**
+	 *
+	 */
 	@Override
 	public Automata<V, S, R> minimize() {
 		

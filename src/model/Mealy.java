@@ -4,15 +4,32 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import structures.Vertex;
 
+/**
+ * @author Usuario
+ *
+ * @param <V>
+ * @param <S>
+ * @param <R>
+ */
 public class Mealy<V, S, R> extends Automata<V, S, R> {
 	
+	/**
+	 * 
+	 */
 	private final HashMap<V, HashMap<S, R>> response;
 
+	/**
+	 * @param v0
+	 */
 	public Mealy(V v0) {
 		super(v0);
 		response = new HashMap<>();
 	}
 	
+	/**
+	 * @param v
+	 * @return
+	 */
 	public boolean addState(V v) {
 		if(v != null) {
 			return addVertex(v);
@@ -20,6 +37,11 @@ public class Mealy<V, S, R> extends Automata<V, S, R> {
 		return false;
 	}
 	
+	/**
+	 * @param v
+	 * @param s
+	 * @return
+	 */
 	public R response(V v, S s) {
 		if(response.containsKey(v)) {
 			return response.get(v).get(s);
@@ -27,6 +49,13 @@ public class Mealy<V, S, R> extends Automata<V, S, R> {
 		return null;
 	}
 	
+	/**
+	 * @param u
+	 * @param v
+	 * @param s
+	 * @param r
+	 * @return
+	 */
 	public boolean connect(V u, V v, S s, R r) {
 		
 		boolean connect = super.connect(u, v, s);
@@ -42,6 +71,9 @@ public class Mealy<V, S, R> extends Automata<V, S, R> {
 		return connect;
 	}
 	
+	/**
+	 * @return
+	 */
 	private ArrayList<ArrayList<V>> partition() {
 		
 		ArrayList<ArrayList<V>> partitions = new ArrayList<>();
@@ -73,6 +105,9 @@ public class Mealy<V, S, R> extends Automata<V, S, R> {
 		return  super.partition(partitions);
 	}
 
+	/**
+	 *
+	 */
 	@Override
 	public Automata<V, S, R> minimize() {
 		

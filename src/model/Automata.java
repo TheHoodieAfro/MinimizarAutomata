@@ -5,16 +5,38 @@ import java.util.HashMap;
 import java.util.HashSet;
 import structures.AdjacencyListGraph;
 
+/**
+ * @author Usuario
+ *
+ * @param <V>
+ * @param <S>
+ * @param <R>
+ */
 public abstract class Automata<V, S, R> extends AdjacencyListGraph<V>{
 	
+	/**
+	 * 
+	 */
 	private final V v0;
 	
+	/**
+	 * 
+	 */
 	private final HashSet<S> stimulus;
 	
+	/**
+	 * 
+	 */
 	private final HashSet<R> response;
 	
+	/**
+	 * 
+	 */
 	private final HashMap<V, HashMap<S, V>> F;
 	
+	/**
+	 * @param v0
+	 */
 	public Automata(V v0) {
 		super(true);
 		this.v0 = v0;
@@ -25,33 +47,39 @@ public abstract class Automata<V, S, R> extends AdjacencyListGraph<V>{
 	}
 	
 	/**
-	 * @return the v0
+	 * @return
 	 */
 	public V getV0() {
 		return v0;
 	}
 
 	/**
-	 * @return the stimulus
+	 * @return
 	 */
 	public HashSet<S> getStimulus() {
 		return stimulus;
 	}
 
 	/**
-	 * @return the response
+	 * @return
 	 */
 	public HashSet<R> getResponse() {
 		return response;
 	}
 
 	/**
-	 * @return the f
+	 * @return
 	 */
 	public HashMap<V, HashMap<S, V>> getF() {
 		return F;
 	}
 
+	/**
+	 * @param u
+	 * @param v
+	 * @param s
+	 * @return
+	 */
 	public boolean connect(V u, V v, S s) {
 		if(!F.containsKey(u)) {
 			F.put(v, new HashMap<>());
@@ -65,6 +93,11 @@ public abstract class Automata<V, S, R> extends AdjacencyListGraph<V>{
 		return false;
 	}
 	
+	/**
+	 * @param u
+	 * @param s
+	 * @return
+	 */
 	public V transition(V u, S s) {
 		if(F.containsKey(u)) {
 			return F.get(u).get(s);
@@ -72,11 +105,17 @@ public abstract class Automata<V, S, R> extends AdjacencyListGraph<V>{
 		return null;
 	}
 	
+	/**
+	 * @return
+	 */
 	public abstract Automata<V, S, R> minimize();
 	
+	/**
+	 * @param partitions
+	 * @return
+	 */
 	public ArrayList<ArrayList<V>> partition(ArrayList<ArrayList<V>> partitions) {
 		
-		//Preparations
 		ArrayList<ArrayList<V>> prev;
 		boolean end = false;
 		
@@ -108,9 +147,14 @@ public abstract class Automata<V, S, R> extends AdjacencyListGraph<V>{
 		return partitions;
 	}
 	
+	/**
+	 * @param partitions
+	 * @param set
+	 * @param s
+	 * @return
+	 */
 	public HashMap<Integer, ArrayList<V>> refine(ArrayList<ArrayList<V>> partitions, int set, S s) {
 		
-		//Preparations
 		ArrayList<V> partition = partitions.get(set);
 		HashMap<Integer, ArrayList<V>> refinedPartition = new HashMap<>();
 		
