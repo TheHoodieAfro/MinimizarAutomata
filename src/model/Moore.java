@@ -78,7 +78,7 @@ public class Moore<V, S, R> extends Automata<V, S, R> {
 			partitions.get(responsesI.get(r)).add(v);
 		}
         
-		return  super.partition(partitions);
+		return  super.partition2_3(partitions);
 	}
 
 	/** Minimizes the Moore machine using the partitioning method

@@ -83,7 +83,7 @@ public abstract class Automata<V, S, R> extends AdjacencyListGraph<V>{
 	 */
 	public boolean connect(V u, V v, S s) {
 		if(!F.containsKey(u)) {
-			F.put(v, new HashMap<>());
+			F.put(u, new HashMap<>());
 		}
 		if(!F.get(u).containsKey(s) && searchVertex(u) && searchVertex(v) && s != null) {
 			super.addEdge(u, v);
@@ -115,7 +115,7 @@ public abstract class Automata<V, S, R> extends AdjacencyListGraph<V>{
 	 * @param partitions
 	 * @return Partitioned sets of states
 	 */
-	public ArrayList<ArrayList<V>> partition(ArrayList<ArrayList<V>> partitions) {
+	public ArrayList<ArrayList<V>> partition2_3(ArrayList<ArrayList<V>> partitions) {
 		
 		ArrayList<ArrayList<V>> prev;
 		boolean end = false;
@@ -162,19 +162,18 @@ public abstract class Automata<V, S, R> extends AdjacencyListGraph<V>{
 		for (V u : partition) {
 			V v = transition(u, s);
 			boolean exists = false;
-			int c = 0;
+			int j;
 			
-			for (int j = 0; j < partitions.size() && !exists; j++) {
+			for (j = 0; j < partitions.size() && !exists; j++) {
 				ArrayList<V> actualPartition = partitions.get(j);
 				exists = actualPartition.contains(v);
-				c = j;
 			}
 			
-			if (!refinedPartition.containsKey(c)) {
-				refinedPartition.put(c, new ArrayList<>());
+			if (!refinedPartition.containsKey(j)) {
+				refinedPartition.put(j, new ArrayList<>());
 			}
 			
-			refinedPartition.get(c).add(u);
+			refinedPartition.get(j).add(u);
 		}
 		return refinedPartition;
 	}

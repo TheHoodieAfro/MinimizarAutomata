@@ -102,7 +102,7 @@ public class Mealy<V, S, R> extends Automata<V, S, R> {
 			partitions.get(responsesI.get(responsesV)).add(v);
 		}
         
-		return  super.partition(partitions);
+		return  super.partition2_3(partitions);
 	}
 
 	/** Minimizes the Mealy machine using the partitioning method
