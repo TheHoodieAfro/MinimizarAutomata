@@ -5,22 +5,22 @@ import java.util.HashMap;
 import structures.Vertex;
 
 /**
- * @author Usuario
- *
- * @param <V>
- * @param <S>
- * @param <R>
+ * @author Cristian Sanchez P. - Juan Pablo Herrera
+ * This class models a Moore machine
+ * @param <V> Abstract data type that represents a state of the machine
+ * @param <S> Abstract data type that represents a stimulus of the machine
+ * @param <R> Abstract data type that represents a response of the machine
  */
 public class Moore<V, S, R> extends Automata<V, S, R> {
 	
 	/**
-	 * 
+	 * HashMap of the response for each state
 	 */
 	private final HashMap<V, R> response;
 
-	/**
-	 * @param v0
-	 * @param r
+	/** Constructor for the Moore class
+	 * @param v0 Initial state
+	 * @param r response of the initial state
 	 */
 	public Moore(V v0, R r) {
 		super(v0);
@@ -28,10 +28,10 @@ public class Moore<V, S, R> extends Automata<V, S, R> {
 		addState(v0, r);
 	}
 	
-	/**
-	 * @param v
-	 * @param r
-	 * @return
+	/** Adds a state v to the machine
+	 * @param v new state to add
+	 * @param r response of the new state
+	 * @return Boolean indicating is the state was added
 	 */
 	public boolean addState(V v, R r) {
 		if(v != null && !response.containsKey(v)) {
@@ -43,16 +43,16 @@ public class Moore<V, S, R> extends Automata<V, S, R> {
 		return false;
 	}
 	
-	/**
-	 * @param v
-	 * @return
+	/** Gives the response for a specified state
+	 * @param v specified state
+	 * @return response of the state
 	 */
 	public R response(V v) {
 		return response.get(v);
 	}
 	
-	/**
-	 * @return
+	/** Partitions the states of the machine
+	 * @return ArrayList of ArrayLists that represent the different partitions
 	 */
 	private ArrayList<ArrayList<V>> partition() {
 		
@@ -81,11 +81,11 @@ public class Moore<V, S, R> extends Automata<V, S, R> {
 		return  super.partition(partitions);
 	}
 
-	/**
-	 *
+	/** Minimizes the Moore machine using the partitioning method
+	 * @return Minimized version of the Moore machine
 	 */
 	@Override
-	public Automata<V, S, R> minimize() {
+	public Moore<V, S, R> minimize() {
 		
 		BFS(getV0());
 		

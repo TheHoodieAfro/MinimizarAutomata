@@ -6,36 +6,37 @@ import java.util.HashSet;
 import structures.AdjacencyListGraph;
 
 /**
- * @author Usuario
- *
- * @param <V>
- * @param <S>
- * @param <R>
+ * @author Cristian Sanchez P. - Juan Pablo Herrera
+ * This class models an automata
+ * @param <V> Abstract data type that represents a state of the automata
+ * @param <S> Abstract data type that represents a stimulus of the automata
+ * @param <R> Abstract data type that represents a response of the automata
  */
 public abstract class Automata<V, S, R> extends AdjacencyListGraph<V>{
 	
 	/**
-	 * 
+	 * Initial state
 	 */
 	private final V v0;
 	
 	/**
-	 * 
+	 * Stimulus set 
 	 */
 	private final HashSet<S> stimulus;
 	
 	/**
-	 * 
+	 * Response set 
 	 */
 	private final HashSet<R> response;
 	
 	/**
-	 * 
+	 * Transition function
 	 */
 	private final HashMap<V, HashMap<S, V>> F;
 	
-	/**
-	 * @param v0
+	/** Constructor for the Automata class
+	 * Makes the graph directed
+	 * @param v0 initial state
 	 */
 	public Automata(V v0) {
 		super(true);
@@ -46,39 +47,39 @@ public abstract class Automata<V, S, R> extends AdjacencyListGraph<V>{
 		addVertex(v0);
 	}
 	
-	/**
-	 * @return
+	/** getter for v0
+	 * @return initial state
 	 */
 	public V getV0() {
 		return v0;
 	}
 
-	/**
-	 * @return
+	/** getter for stimulus set
+	 * @return stimulus set
 	 */
 	public HashSet<S> getStimulus() {
 		return stimulus;
 	}
 
-	/**
-	 * @return
+	/** getter for response set
+	 * @return response set
 	 */
 	public HashSet<R> getResponse() {
 		return response;
 	}
 
-	/**
-	 * @return
+	/** getter for transition function
+	 * @return transition function
 	 */
 	public HashMap<V, HashMap<S, V>> getF() {
 		return F;
 	}
 
-	/**
-	 * @param u
-	 * @param v
-	 * @param s
-	 * @return
+	/** Connects two states through a stimulus
+	 * @param u Start state
+	 * @param v End state
+	 * @param s Stimulus
+	 * @return Boolean indicating is the states where connected
 	 */
 	public boolean connect(V u, V v, S s) {
 		if(!F.containsKey(u)) {
@@ -93,10 +94,10 @@ public abstract class Automata<V, S, R> extends AdjacencyListGraph<V>{
 		return false;
 	}
 	
-	/**
-	 * @param u
-	 * @param s
-	 * @return
+	/** Use of the transition function to get the obtained state from a state given a stimulus
+	 * @param u State
+	 * @param s Stimulus
+	 * @return State obtained state from a state given a stimulus
 	 */
 	public V transition(V u, S s) {
 		if(F.containsKey(u)) {
@@ -105,14 +106,14 @@ public abstract class Automata<V, S, R> extends AdjacencyListGraph<V>{
 		return null;
 	}
 	
-	/**
-	 * @return
+	/** Abstract method to minimize a machine
+	 * @return Minimized machine
 	 */
 	public abstract Automata<V, S, R> minimize();
 	
-	/**
+	/** Partition method shared between Mealy and Moore machines
 	 * @param partitions
-	 * @return
+	 * @return Partitioned sets of states
 	 */
 	public ArrayList<ArrayList<V>> partition(ArrayList<ArrayList<V>> partitions) {
 		
@@ -147,11 +148,11 @@ public abstract class Automata<V, S, R> extends AdjacencyListGraph<V>{
 		return partitions;
 	}
 	
-	/**
+	/** Refining method to partition state sets
 	 * @param partitions
-	 * @param set
-	 * @param s
-	 * @return
+	 * @param set specified
+	 * @param s stimulus
+	 * @return Refined set
 	 */
 	public HashMap<Integer, ArrayList<V>> refine(ArrayList<ArrayList<V>> partitions, int set, S s) {
 		

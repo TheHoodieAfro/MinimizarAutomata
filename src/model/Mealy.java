@@ -5,30 +5,30 @@ import java.util.HashMap;
 import structures.Vertex;
 
 /**
- * @author Usuario
- *
- * @param <V>
- * @param <S>
- * @param <R>
+ * @author Cristian Sanchez P. - Juan Pablo Herrera
+ * This class models a Mealy machine
+ * @param <V> Abstract data type that represents a state of the machine
+ * @param <S> Abstract data type that represents a stimulus of the machine
+ * @param <R> Abstract data type that represents a response of the machine
  */
 public class Mealy<V, S, R> extends Automata<V, S, R> {
 	
 	/**
-	 * 
+	 * HashMap of the response for each state and its stimulus
 	 */
 	private final HashMap<V, HashMap<S, R>> response;
 
-	/**
-	 * @param v0
+	/** Constructor for the Moore class
+	 * @param v0 Initial state
 	 */
 	public Mealy(V v0) {
 		super(v0);
 		response = new HashMap<>();
 	}
 	
-	/**
-	 * @param v
-	 * @return
+	/** Adds a state v to the machine
+	 * @param v new state to add
+	 * @return Boolean indicating is the state was added
 	 */
 	public boolean addState(V v) {
 		if(v != null) {
@@ -37,10 +37,10 @@ public class Mealy<V, S, R> extends Automata<V, S, R> {
 		return false;
 	}
 	
-	/**
-	 * @param v
-	 * @param s
-	 * @return
+	/** Gives the response for a specified state and stimulus
+	 * @param v specified state
+	 * @param s specified stimulus
+	 * @return response of the state and stimulus
 	 */
 	public R response(V v, S s) {
 		if(response.containsKey(v)) {
@@ -49,12 +49,12 @@ public class Mealy<V, S, R> extends Automata<V, S, R> {
 		return null;
 	}
 	
-	/**
-	 * @param u
-	 * @param v
-	 * @param s
-	 * @param r
-	 * @return
+	/** Connects two states through a stimulus and gives a response
+	 * @param u Start state
+	 * @param v End state
+	 * @param s Stimulus
+	 * @param r Response
+	 * @return Boolean indicating if the states where connected
 	 */
 	public boolean connect(V u, V v, S s, R r) {
 		
@@ -71,8 +71,8 @@ public class Mealy<V, S, R> extends Automata<V, S, R> {
 		return connect;
 	}
 	
-	/**
-	 * @return
+	/** Partitions the states of the machine
+	 * @return ArrayList of ArrayLists that represent the different partitions
 	 */
 	private ArrayList<ArrayList<V>> partition() {
 		
@@ -105,11 +105,11 @@ public class Mealy<V, S, R> extends Automata<V, S, R> {
 		return  super.partition(partitions);
 	}
 
-	/**
-	 *
+	/** Minimizes the Mealy machine using the partitioning method
+	 * @return Minimized version of the Mealy machine
 	 */
 	@Override
-	public Automata<V, S, R> minimize() {
+	public Mealy<V, S, R> minimize() {
 		
 		BFS(getV0());
 		
