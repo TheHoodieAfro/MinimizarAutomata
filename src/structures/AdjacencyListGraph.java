@@ -17,24 +17,24 @@ import structures.Vertex.Color;
 public class AdjacencyListGraph<V> implements IGraph<V>{
 	
 	/**
-	 * 
+	 * Vertices of the graph
 	 */
 	private HashMap<V,Vertex<V>> vertices;	
 	
 	/**
-	 * 
+	 * adjacencyList representation
 	 */
 	private HashMap<V, ArrayList<Edge<V>>> adjacencyLists;
 	
 	/**
-	 * 
+	 * Type of graph
 	 */
 	private boolean isDirected;
 	
 	/**
-	 * 
+	 * Last vertex
 	 */
-	private Vertex<V> prevVertex;
+	private Vertex<V> last;
 	
 	/**
 	 * Basic constructor that is initialized with default values
@@ -64,7 +64,9 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 	}
 	
 	/**
-	 *
+	 * Adds a vertex to the graph
+	 * @param v The new vertex to be added
+	 * @return True if was added and false if it was already in the graph
 	 */
 	@Override
 	public boolean addVertex(V v) {
@@ -88,7 +90,11 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 	}
 
 	/**
-	 *
+	 * Adds an edge to the graph
+	 * If the graph is directed the connection will be from U to V
+	 * <pre> U and V have to exist in the graph
+	 * @param u a vertex within the graph
+	 * @param v a vertex within the graph
 	 */
 	@Override
 	public void addEdge(V u, V v) {
@@ -111,7 +117,7 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 	}
 
 	/**
-	 *
+	 * Nah
 	 */
 	@Override
 	public void addEdge(V u, V v, double w) {
@@ -119,7 +125,9 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 	}
 
 	/**
-	 *
+	 * Removes a vertex within the graph
+	 * @param v A vertex to be removed of the graph
+	 * @return True if the vertex was removed or false if the vertex didn't exist
 	 */
 	@Override
 	public boolean removeVertex(V v) {
@@ -145,7 +153,11 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 	}
 
 	/**
-	 *
+	 * Removes an edge within the graph
+	 * <pre> U and V are within the graph
+	 * @param u A vertex connected with V
+	 * @param v A vertex connected with U
+	 * @return 
 	 */
 	@Override
 	public boolean removeEdge(V u, V v) {
@@ -167,7 +179,10 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 	}
 
 	/**
-	 *
+	 * Gives a list of adjacent vertices of V
+	 * <pre> V Is within the graph
+	 * @param v The vertex to be consulted its adjacent vertices
+	 * @return A list with all the adjacent vertices of V
 	 */
 	@Override
 	public List<V> vertexAdjacent(V v) {
@@ -176,7 +191,11 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 	}
 
 	/**
-	 *
+	 * Check if U and V are connected
+	 * <pre> U and V are within the graph
+	 * @param u Is a vertex
+	 * @param v Is a vertex
+	 * @return True if U and V are connected or false if they're not
 	 */
 	@Override
 	public boolean areConnected(V u, V v) {
@@ -189,7 +208,8 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 	}
 
 	/**
-	 *
+	 * <pre> The graph is weighted
+	 * @return A matrix with the weight of all the connections
 	 */
 	@Override
 	public double[][] weightMatrix() {
@@ -198,7 +218,8 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 	}
 
 	/**
-	 *
+	 * 
+	 * @return True if the graph is directed or false if it isn't
 	 */
 	@Override
 	public boolean isDirected() {
@@ -207,14 +228,14 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 	}
 	
 	/**
-	 * @return
+	 * @return HashMap of the vertices
 	 */
 	public HashMap<V, Vertex<V>> getVertices(){
 		return vertices;		
 	}
 	
-	/**
-	 * @return
+	/** Get the vertices as an ArrayList
+	 * @return ArrayList of the vertices
 	 */
 	public ArrayList<V> getVerticesArray(){
 		ArrayList<V> vertex = new ArrayList<>();
@@ -223,29 +244,21 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 	}
 	
 	/**
-	 * @return
+	 * @return HashMap of the adjacencyLists
 	 */
 	public HashMap<V, ArrayList<Edge<V>>> getAdjacencyList(){		
 		return adjacencyLists;		
 	}
 	
 	/**
-	 * @return
+	 * @return Boolean, true if the graph is empty
 	 */
 	public boolean isEmpty() {
 		return vertices.isEmpty();
 	}
 
-	/**
-	 *
-	 */
-	@Override
-	public int getIndex(V u) {
-		return 0;
-	}
-
-	/**
-	 *
+	/** Retrieves the amount of vertices in the graph
+	 * @return amount of vertices in the graph
 	 */
 	@Override
 	public int getVertexSize() {
@@ -253,15 +266,15 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 	}
 	
 	/**
-	 * @return
+	 * @return 
 	 */
-	public Vertex<V> getPrevVertex() {
-		return prevVertex;
+	public Vertex<V> getLastVertex() {
+		return last;
 	}
 	
-	/**
-	 * @param v
-	 * @return
+	/** Gives the color of a vertex
+	 * @param v Vertex
+	 * @return Color of the vertex
 	 */
 	public Color getVertexColor(V v) {
 		if(searchVertex(v)) {
@@ -271,8 +284,9 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 		return null;
 	}
 
-	/**
-	 *
+	/** Breath First Search
+	 * @param v Start vertex
+	 * @return Boolean
 	 */
 	@Override
 	public boolean BFS(V v) {
@@ -280,7 +294,7 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 		if(searchVertex(v)) {
 			
 			Vertex<V> vertex = vertices.get(v);
-			prevVertex = vertex;
+			last = vertex;
 			
 			vertices.forEach((V c, Vertex<V> u) -> {
 				u.setColor(Color.RED);

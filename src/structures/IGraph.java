@@ -75,9 +75,9 @@ public interface IGraph<V> {
 	 */
 	public double[][] weightMatrix();
 	
-	/**
-	 * @param v
-	 * @return
+	/** Breath First Search
+	 * @param v Start vertex
+	 * @return Boolean
 	 */
 	public boolean BFS(V v);
 	
@@ -87,14 +87,8 @@ public interface IGraph<V> {
 	 */
 	public boolean isDirected();
 	
-	/**
-	 * @param u
-	 * @return
-	 */
-	public int getIndex(V u);
-	
-	/**
-	 * @return
+	/** Retrieves the amount of vertices in the graph
+	 * @return amount of vertices in the graph
 	 */
 	public int getVertexSize();
 }
