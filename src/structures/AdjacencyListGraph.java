@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Queue;
 
 import structures.Vertex.Color;
@@ -184,8 +183,14 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 	 * 
 	 * @return all the vertices within the graph as a map data structure
 	 */
-	public HashMap<V, Vertex<V>> getVertices(){		
+	public HashMap<V, Vertex<V>> getVertices(){
 		return vertices;		
+	}
+	
+	public ArrayList<V> getVerticesArray(){
+		ArrayList<V> vertex = new ArrayList<>();
+		vertices.forEach((V x, Vertex<V> y) -> vertex.add(x));
+		return vertex;
 	}
 	
 	/**
@@ -212,6 +217,14 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 	
 	public Vertex<V> getPrevVertex() {
 		return prevVertex;
+	}
+	
+	public Color getVertexColor(V v) {
+		if(searchVertex(v)) {
+			return vertices.get(v).getColor();
+		}
+		
+		return null;
 	}
 
 	@Override

@@ -11,7 +11,7 @@ public abstract class Automata<V, S, R> extends AdjacencyListGraph<V>{
 	
 	private final HashSet<S> stimulus;
 	
-	private final HashSet<S> response;
+	private final HashSet<R> response;
 	
 	private final HashMap<V, HashMap<S, V>> F;
 	
@@ -41,7 +41,7 @@ public abstract class Automata<V, S, R> extends AdjacencyListGraph<V>{
 	/**
 	 * @return the response
 	 */
-	public HashSet<S> getResponse() {
+	public HashSet<R> getResponse() {
 		return response;
 	}
 
@@ -74,7 +74,7 @@ public abstract class Automata<V, S, R> extends AdjacencyListGraph<V>{
 	
 	public abstract Automata<V, S, R> minimize();
 	
-	public ArrayList<ArrayList<V>> Partition2_3(ArrayList<ArrayList<V>> partitions) {
+	public ArrayList<ArrayList<V>> partition(ArrayList<ArrayList<V>> partitions) {
 		
 		//Preparations
 		ArrayList<ArrayList<V>> prev;
