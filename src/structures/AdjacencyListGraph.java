@@ -250,6 +250,19 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 		return adjacencyLists;		
 	}
 	
+	/** Gets all adjacent edges for a vertex
+	 * @return ArrayList of edges for a vertex
+	 */
+	public ArrayList<V> getAdjacent(V v) {
+		ArrayList<V> adjacent = new ArrayList<>();
+		if(searchVertex(v)) {
+			for(Edge<V> e : adjacencyLists.get(v)) {
+				adjacent.add(e.getV());
+			}
+		}
+		return adjacent;
+	}
+	
 	/**
 	 * @return Boolean, true if the graph is empty
 	 */
