@@ -39,7 +39,7 @@ class MooreTest {
 		moore.connect('F', 'H', false);
 		moore.connect('F', 'F', true);
 		moore.connect('G', 'I', false);
-		moore.connect('G', 'H', true);
+		moore.connect('G', 'G', true);
 		moore.connect('H', 'J', false);
 		moore.connect('H', 'H', true);
 		moore.connect('I', 'A', false);

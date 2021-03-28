@@ -34,7 +34,7 @@ class MealyTest {
 		mealy.connect('F', 'G', true, 'b');
 		mealy.connect('G', 'G', false, 'a');
 		mealy.connect('G', 'H', true, 'b');
-		mealy.connect('H', 'H', false, 'c');
+		mealy.connect('H', 'H', false, 'a');
 		mealy.connect('H', 'A', true, 'c');
 		
 	}
