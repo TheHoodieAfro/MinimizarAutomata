@@ -48,10 +48,9 @@ public interface IGraph<V> {
 	 * <pre> U and V are within the graph
 	 * @param u A vertex connected with V
 	 * @param v A vertex connected with U
+	 * @return 
 	 */
-	public void removeEdge(V u, V v);
-	
-	public boolean vertexExists(V v);
+	public boolean removeEdge(V u, V v);
 	
 	/**
 	 * Gives a list of adjacent vertices of V
@@ -76,7 +75,7 @@ public interface IGraph<V> {
 	 */
 	public double[][] weightMatrix();
 	
-	public void BFS(V v);
+	public boolean BFS(V v);
 	
 	/**
 	 * 

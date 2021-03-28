@@ -2,8 +2,12 @@ package structures;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
+
+import structures.Vertex.Color;
 
 /**
  * This class models a graph using an Adjacency list
@@ -17,17 +21,19 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 	 * Map with all the vertices within the graph.
 	 * Key of the map is the Vertex and Value is the position of the vertex in the adjacencyList
 	 */
-	private Map<V,Integer> vertices;	
+	private HashMap<V,Vertex<V>> vertices;	
 	
 	/**
 	 * A list for each Vertex within the graph which has a list with all its adjacent Vertices 
 	 */
-	private List<List<V>> adjacencyLists;
+	private HashMap<V, ArrayList<Edge<V>>> adjacencyLists;
 	
 	/**
 	 * Property that say if a graph is directed or not
 	 */
 	private boolean isDirected;
+	
+	private Vertex<V> prevVertex;
 	
 	/**
 	 * Basic constructor that is initialized with default values
@@ -52,8 +58,8 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 	 */
 	private final void initialize() {
 		isDirected = false;
-		adjacencyLists = new ArrayList<List<V>>();
-		vertices = new HashMap<V, Integer>();
+		adjacencyLists = new HashMap<>();
+		vertices = new HashMap<>();
 	}
 	
 	@Override
@@ -61,16 +67,9 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 		// Check if the vertex is not on the map already
 		if(!searchVertex(v)) {
 			
-			// Create a new empty list for that vertex
-			@SuppressWarnings("unchecked")
-			List<V> vList = (List<V>) new ArrayList<Object>();
-			// Get the position for this new vertex
-			int index = adjacencyLists.size();
-			// Add the vertex to the map
-			vertices.put(v, index);
-			// Add the vertex empty list to the adjacencyLists
-			adjacencyLists.add(vList);
-			// Change the value to true indicating that it was possible to add the vertex
+			vertices.put(v, new Vertex<V>(v));
+			adjacencyLists.put(v, new ArrayList<>());
+			
 			return true;
 		}
 		return false;
@@ -82,61 +81,75 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 	 * @return True if found or false if not
 	 */
 	public boolean searchVertex(V v) {
-		return vertices.containsValue(v);
+		return vertices.containsKey(v);
 	}
 
 	@Override
 	public void addEdge(V u, V v) {
-		// TODO Auto-generated method stub
-	
-		int ValueU = vertices.get(u);
-		int ValueV = vertices.get(v);
+		
+		addVertex(u);
+		addVertex(v);
+		Edge<V> edgeU = new Edge<V>(u, v);
+		
+		ArrayList<Edge<V>> edgesU = adjacencyLists.get(u);
+		edgesU.remove(edgeU);
+		edgesU.add(edgeU);
 		
 		if(!isDirected) {
-			adjacencyLists.get(ValueU).add(v);
-			adjacencyLists.get(ValueV).add(u);
-		}else {
-			
-			adjacencyLists.get(ValueU).add(v);
+			Edge<V> edgeV = new Edge<>(u, v);
+			ArrayList<Edge<V>> edgesV = adjacencyLists.get(v);
+			edgesV.remove(edgeV);
+			edgesV.add(edgeV);
 		}
 		
 	}
 
 	@Override
 	public void addEdge(V u, V v, double w) {
-		// TODO Auto-generated method stub
 		
 	}
 
-	@SuppressWarnings("unlikely-arg-type")
 	@Override
 	public boolean removeVertex(V v) {
 		
 		// first looks if the vertex exists
-		if(vertices.containsKey(v)) {
+		if(searchVertex(v)) {
 			
-			// remove the existing list which represents the adjacent vertices of the vertex to remove
-			adjacencyLists.remove(vertices.get(v));
-			
-			// remove any existing connection to the vertex
-			for(int i=0; i<adjacencyLists.size(); i++) {
-				if(adjacencyLists.get(i).contains(v)) adjacencyLists.get(i).remove(i);
-			}
-			
-			// removes the vertex form the map
 			vertices.remove(v);
+			vertices.forEach((V u, Vertex<V> x) -> {
+				ArrayList<Edge<V>> erase = new ArrayList<>();
+				
+				for(Edge<V> e : adjacencyLists.get(x)) {
+					if(e.getV().equals(v)) {
+						erase.add(e);
+					}
+				}
+				adjacencyLists.get(u).removeAll(erase);
+			});
 			
 			return true;
-			
-		}else {
-			return false;
 		}
 		
+		return false;
 	}
 
 	@Override
-	public void removeEdge(V u, V v) {
-		// TODO Auto-generated method stub
+	public boolean removeEdge(V u, V v) {
+		
+		Vertex<V> U = vertices.get(u);
+		Vertex<V> V = vertices.get(v);
+		
+		if(U != null && V != null) {
+			adjacencyLists.get(u).remove(new Edge<V>(U.getData(), V.getData()));
+			
+			if(!isDirected) {
+				adjacencyLists.get(v).remove(new Edge<V>(V.getData(), U.getData()));
+			}
+			
+			return true;
+		}
+		
+		return false;
 	}
 
 	@Override
@@ -148,20 +161,11 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 	@Override
 	public boolean areConnected(V u, V v) {
 		
-		int uValor = vertices.get(u);
-		int vValor = vertices.get(v);
-		
-//		return adjacencyLists.get(uValor).contains(v) || adjacencyLists.get(uValor).contains(v);
-//		This return exists in case there is no need of being specific about the direction
-		
-		if(isDirected) {
-			return adjacencyLists.get(uValor).contains(v);
-			// this returns if u connected and directed to v
-		}else {
-			return adjacencyLists.get(uValor).contains(v) && adjacencyLists.get(vValor).contains(u);
-			// in case the graph is not connected then both should be connected to each other
+		if(searchVertex(u) && searchVertex(v)) {
+			return adjacencyLists.get(u).contains(new Edge<V>(u, v));
 		}
 		
+		return false;
 	}
 
 	@Override
@@ -180,7 +184,7 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 	 * 
 	 * @return all the vertices within the graph as a map data structure
 	 */
-	public Map<V, Integer> getVertices(){		
+	public HashMap<V, Vertex<V>> getVertices(){		
 		return vertices;		
 	}
 	
@@ -188,29 +192,75 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 	 *
 	 * @return The graph. A list with lists of vertices and its adjacent vertices
 	 */
-	public List<List<V>> getAdjacencyList(){		
+	public HashMap<V, ArrayList<Edge<V>>> getAdjacencyList(){		
 		return adjacencyLists;		
+	}
+	
+	public boolean isEmpty() {
+		return vertices.isEmpty();
 	}
 
 	@Override
 	public int getIndex(V u) {
-		return vertices.get(u);
+		return 0;
 	}
 
 	@Override
 	public int getVertexSize() {
 		return vertices.size();
 	}
-
-	@Override
-	public boolean vertexExists(V v) {
-		// TODO Auto-generated method stub
-		return false;
+	
+	public Vertex<V> getPrevVertex() {
+		return prevVertex;
 	}
 
 	@Override
-	public void BFS(V v) {
-		// TODO Auto-generated method stub
+	public boolean BFS(V v) {
 		
+		if(searchVertex(v)) {
+			
+			Vertex<V> vertex = vertices.get(v);
+			prevVertex = vertex;
+			
+			vertices.forEach((V c, Vertex<V> u) -> {
+				u.setColor(Color.RED);
+				u.setDist(Integer.MAX_VALUE);
+				u.setPrev(null);
+			});
+			
+			vertex.setColor(Color.WHITE);
+			vertex.setDist(0);
+			Queue<Vertex<V>> queue = new LinkedList<>();
+			queue.add(vertex);
+			
+			try {
+				while(!queue.isEmpty()) {
+					
+					Vertex<V> u = queue.remove();
+					ArrayList<Edge<V>> adj = adjacencyLists.get(u.getData());
+					
+					for(Edge<V> ale: adj) {
+						
+						Vertex<V> x = vertices.get(ale.getV());
+						
+						if(x.getColor() == Color.RED) {
+							x.setColor(Color.WHITE);
+							x.setDist(u.getDist()+1);
+							x.setPrev(u);
+							queue.add(x);
+						}
+					}
+					
+					u.setColor(Color.BLACK);
+				}
+				
+			} catch (Exception emptyQueueException) {
+				
+			}
+			
+			return true;
+		}
+		
+		return false;
 	}	
 }
