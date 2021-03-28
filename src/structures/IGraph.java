@@ -51,6 +51,8 @@ public interface IGraph<V> {
 	 */
 	public void removeEdge(V u, V v);
 	
+	public boolean vertexExists(V v);
+	
 	/**
 	 * Gives a list of adjacent vertices of V
 	 * <pre> V Is within the graph
@@ -73,6 +75,8 @@ public interface IGraph<V> {
 	 * @return A matrix with the weight of all the connections
 	 */
 	public double[][] weightMatrix();
+	
+	public void BFS(V v);
 	
 	/**
 	 * 

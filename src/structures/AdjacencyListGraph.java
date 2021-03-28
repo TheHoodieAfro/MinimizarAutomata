@@ -200,5 +200,17 @@ public class AdjacencyListGraph<V> implements IGraph<V>{
 	@Override
 	public int getVertexSize() {
 		return vertices.size();
+	}
+
+	@Override
+	public boolean vertexExists(V v) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void BFS(V v) {
+		// TODO Auto-generated method stub
+		
 	}	
 }
